@@ -173,7 +173,7 @@ function CategoriaPage() {
 
   return (
     <div className="min-h-screen bg-background text-foreground">
-      <header className="border-b border-border/60 bg-background/85 backdrop-blur">
+      <header className="sticky top-0 z-40 border-b border-border/60 bg-background/85 backdrop-blur">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5 lg:px-10">
           <Link to="/" className="flex flex-col leading-tight">
             <span className="font-display text-2xl">Maria Teresa Desenho</span>
