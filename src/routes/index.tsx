@@ -138,7 +138,7 @@ function Index() {
               Maria Teresa Desenho — quadros, murais pintados à mão, posters e stationery personalizado em Guimarães, Portugal.
             </p>
             <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground">
-              Atelier de arte em Guimarães. Quadros, murais de parede, posters e stationery para eventos feitos à mão. Cada peça é criada a partir de uma conversa e de atenção ao detalhe.
+              Quadros, murais de parede, posters e stationery para eventos feitos à mão. Cada peça é criada a partir de uma conversa e de atenção ao detalhe.
             </p>
             <div className="mt-10 flex flex-wrap gap-3">
               <a
