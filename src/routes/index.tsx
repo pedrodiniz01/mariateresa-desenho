@@ -130,7 +130,7 @@ function Index() {
       <section id="home" className="border-b border-border/60">
         <div className="mx-auto grid max-w-7xl gap-10 px-6 py-16 lg:grid-cols-[1fr_1.4fr] lg:gap-16 lg:px-10 lg:py-24">
           <div className="flex flex-col justify-center">
-            <p className="eyebrow mb-6">Atelier · Guimarães, Portugal</p>
+            <p className="eyebrow mb-6">Atelier · Portugal</p>
             <h1 className="font-display text-5xl leading-[1.05] sm:text-6xl lg:text-7xl">
               Um traço,<br />ou <em className="italic text-accent">rabiscos.</em>
             </h1>
@@ -317,7 +317,7 @@ function Index() {
             </li>
             <li className="flex items-center gap-3">
               <MapPin className="h-4 w-4 text-accent" />
-              <span>Guimarães, Portugal</span>
+              <span>Portugal</span>
             </li>
           </ul>
         </div>
