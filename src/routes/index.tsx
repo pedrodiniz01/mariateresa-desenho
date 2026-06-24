@@ -27,6 +27,8 @@ export const Route = createFileRoute("/")({
       path: "/",
       image: heroArtwork,
       imageAlt: "Mural de safari pintado à mão num quarto infantil por Maria Teresa Desenho",
+      imageWidth: 1600,
+      imageHeight: 1200,
       jsonLd: [createWebsiteJsonLd(), createBusinessJsonLd(heroArtwork)],
     }),
   component: Index,
@@ -172,6 +174,7 @@ function Index() {
               alt="Murais de parede pintados à mão com cenas de safari e jardim em tons suaves"
               width={1600}
               height={1200}
+              fetchPriority="high"
               className="aspect-[4/3] w-full object-cover"
             />
             <div className="absolute -bottom-4 -right-4 hidden h-24 w-24 border border-foreground/80 md:block" />

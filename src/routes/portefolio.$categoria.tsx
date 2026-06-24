@@ -1,5 +1,5 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { ArrowLeft, X } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowLeft, ChevronRight, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import portfolioQuadrosAsset from "@/assets/portfolio-quadros.jpg";
 const portfolioQuadros = portfolioQuadrosAsset;
@@ -31,7 +31,12 @@ import quadroImg9490 from "@/assets/quadro-img-9490.jpg";
 import quadroImg9493 from "@/assets/quadro-img-9493.jpg";
 import quadroImg9497 from "@/assets/quadro-img-9497.jpg";
 import quadroImg97513 from "@/assets/quadro-img-9751-3.jpg";
-import { createCollectionPageJsonLd, createPageHead } from "@/lib/seo";
+import {
+  createBreadcrumbJsonLd,
+  createCollectionPageJsonLd,
+  createNotFoundHead,
+  createPageHead,
+} from "@/lib/seo";
 
 type Categoria = {
   slug: string;
@@ -109,48 +114,74 @@ const categorias: Record<string, Categoria> = {
 
 export const Route = createFileRoute("/portefolio/$categoria")({
   loader: ({ params }) => {
-    const cat = categorias[params.categoria];
-    if (!cat) throw notFound();
-    return { cat };
+    const cat = categorias[params.categoria] ?? null;
+    return { cat, slug: params.categoria };
   },
   head: ({ loaderData }) => {
     const cat = loaderData?.cat;
-    const title = cat ? `${cat.titulo} — Maria Teresa Desenho` : "Portefólio — Maria Teresa Desenho";
-    const description =
-      cat?.descricao ??
-      "Portefólio de quadros, murais, posters e stationery personalizados de Maria Teresa Desenho em Guimarães, Portugal.";
-    const path = cat ? `/portefolio/${cat.slug}` : "/portefolio/quadros";
+    const slug = loaderData?.slug ?? "desconhecido";
+    const path = `/portefolio/${slug}`;
+
+    if (!cat) {
+      return createNotFoundHead({
+        title: "Categoria não encontrada — Maria Teresa Desenho",
+        path,
+      });
+    }
+
+    const title = `${cat.titulo} — Maria Teresa Desenho`;
+    const description = cat.descricao;
 
     return createPageHead({
       title,
       description,
       path,
-      image: cat?.imagens[0]?.src,
-      imageAlt: cat?.imagens[0]?.alt,
+      image: cat.imagens[0]?.src,
+      imageAlt: cat.imagens[0]?.alt,
       type: "website",
-      jsonLd: cat
-        ? createCollectionPageJsonLd({
-            title,
-            description,
-            path,
-            images: cat.imagens,
-          })
-        : undefined,
+      jsonLd: [
+        createBreadcrumbJsonLd([
+          { name: "Início", path: "/" },
+          { name: "Portefólio", path: "/#portefolio" },
+          { name: cat.titulo, path },
+        ]),
+        createCollectionPageJsonLd({
+          title,
+          description,
+          path,
+          images: cat.imagens,
+        }),
+      ],
     });
   },
   component: CategoriaPage,
-  notFoundComponent: () => (
-    <div className="mx-auto max-w-3xl px-6 py-32 text-center">
-      <h1 className="font-display text-4xl">Categoria não encontrada</h1>
-      <Link to="/" className="mt-8 inline-block text-sm uppercase tracking-[0.22em] hover:text-accent">
-        ← Voltar ao início
-      </Link>
-    </div>
-  ),
 });
 
+function CategoriaNotFound({ slug }: { slug: string }) {
+  return (
+    <div className="flex min-h-screen flex-col items-center justify-center bg-background px-6 py-32 text-center">
+      <h1 className="font-display text-4xl">Categoria não encontrada</h1>
+      <p className="mt-4 text-sm text-muted-foreground">
+        A categoria «{slug}» não existe no portefólio.
+      </p>
+      <Link
+        to="/"
+        hash="portefolio"
+        className="mt-8 inline-block text-sm uppercase tracking-[0.22em] hover:text-accent"
+      >
+        ← Ver portefólio
+      </Link>
+    </div>
+  );
+}
+
 function CategoriaPage() {
-  const { cat } = Route.useLoaderData();
+  const { cat, slug } = Route.useLoaderData();
+  if (!cat) return <CategoriaNotFound slug={slug} />;
+  return <CategoriaGallery cat={cat} />;
+}
+
+function CategoriaGallery({ cat }: { cat: Categoria }) {
   const [zoomed, setZoomed] = useState<{ src: string; alt: string } | null>(null);
   const [scale, setScale] = useState(1);
 
@@ -193,6 +224,31 @@ function CategoriaPage() {
 
       <section className="border-b border-border/60">
         <div className="mx-auto max-w-5xl px-6 py-20 text-center lg:px-10 lg:py-28">
+          <nav aria-label="Breadcrumb" className="mb-8 flex justify-center">
+            <ol className="flex flex-wrap items-center justify-center gap-2 text-xs uppercase tracking-[0.18em] text-muted-foreground">
+              <li>
+                <Link to="/" className="transition-colors hover:text-accent">
+                  Início
+                </Link>
+              </li>
+              <li aria-hidden="true">
+                <ChevronRight className="h-3 w-3" />
+              </li>
+              <li>
+                <Link to="/" hash="portefolio" className="transition-colors hover:text-accent">
+                  Portefólio
+                </Link>
+              </li>
+              <li aria-hidden="true">
+                <ChevronRight className="h-3 w-3" />
+              </li>
+              <li>
+                <span aria-current="page" className="text-foreground">
+                  {cat.titulo}
+                </span>
+              </li>
+            </ol>
+          </nav>
           <p className="eyebrow mb-4">Portefólio</p>
           <h1 className="font-display text-5xl sm:text-6xl">
             {cat.titulo}

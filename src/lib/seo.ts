@@ -13,7 +13,10 @@ export const CONTACT = {
   email: "mariateresadesenhopt@outlook.pt",
   instagram: "https://www.instagram.com/mariateresa_desenho/",
   city: "Guimarães",
+  region: "Braga",
   country: "Portugal",
+  latitude: 41.4425,
+  longitude: -8.2918,
 } as const;
 
 export const PORTFOLIO_PATHS = [
@@ -44,7 +47,10 @@ type PageHeadOptions = {
   path: string;
   image?: string;
   imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
   type?: string;
+  robots?: string;
   jsonLd?: object | object[];
 };
 
@@ -54,7 +60,10 @@ export function createPageHead({
   path,
   image,
   imageAlt,
+  imageWidth,
+  imageHeight,
   type = "website",
+  robots = "index, follow",
   jsonLd,
 }: PageHeadOptions) {
   const url = absoluteUrl(path);
@@ -65,7 +74,7 @@ export function createPageHead({
     { name: "description", content: description },
     { name: "keywords", content: DEFAULT_KEYWORDS },
     { name: "author", content: SITE_NAME },
-    { name: "robots", content: "index, follow" },
+    { name: "robots", content: robots },
     { property: "og:title", content: title },
     { property: "og:description", content: description },
     { property: "og:type", content: type },
@@ -83,6 +92,12 @@ export function createPageHead({
       { property: "og:image:alt", content: imageAlt ?? title },
       { name: "twitter:image", content: absoluteImage },
     );
+    if (imageWidth) {
+      meta.push({ property: "og:image:width", content: String(imageWidth) });
+    }
+    if (imageHeight) {
+      meta.push({ property: "og:image:height", content: String(imageHeight) });
+    }
   }
 
   const jsonLdItems = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
@@ -93,6 +108,28 @@ export function createPageHead({
   return {
     meta,
     links: [{ rel: "canonical", href: url }],
+  };
+}
+
+export function createNotFoundHead(options?: { title?: string; path?: string }) {
+  return createPageHead({
+    title: options?.title ?? `Página não encontrada — ${SITE_NAME}`,
+    description: `A página que procura não existe. Visite ${SITE_NAME} para ver quadros, murais e stationery personalizados em Guimarães, Portugal.`,
+    path: options?.path ?? "/404",
+    robots: "noindex, follow",
+  });
+}
+
+export function createBreadcrumbJsonLd(items: { name: string; path: string }[]) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((item, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: item.name,
+      item: absoluteUrl(item.path),
+    })),
   };
 }
 
@@ -112,12 +149,24 @@ export function createBusinessJsonLd(image?: string) {
     address: {
       "@type": "PostalAddress",
       addressLocality: CONTACT.city,
+      addressRegion: CONTACT.region,
       addressCountry: "PT",
     },
-    areaServed: {
-      "@type": "Country",
-      name: CONTACT.country,
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: CONTACT.latitude,
+      longitude: CONTACT.longitude,
     },
+    areaServed: [
+      {
+        "@type": "City",
+        name: CONTACT.city,
+      },
+      {
+        "@type": "Country",
+        name: CONTACT.country,
+      },
+    ],
     sameAs: [CONTACT.instagram],
     knowsAbout: [
       "Quadros personalizados",
