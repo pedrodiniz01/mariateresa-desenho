@@ -1,14 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Instagram, Mail, MessageCircle, MapPin, ArrowRight } from "lucide-react";
-import heroArtworkAsset from "@/assets/hero-murais.jpeg";
+import heroArtworkAsset from "@/assets/hero-murais.webp";
 const heroArtwork = heroArtworkAsset;
-import aboutStudio from "@/assets/sobre-artista.jpeg";
-import portfolioQuadrosAsset from "@/assets/portfolio-quadros.jpg";
+import aboutStudio from "@/assets/sobre-artista.webp";
+import portfolioQuadrosAsset from "@/assets/portfolio-quadros.webp";
 const portfolioQuadros = portfolioQuadrosAsset;
-import portfolioPosters from "@/assets/poster-mallorca.jpg";
-import portfolioMuraisAsset from "@/assets/mural-safari.jpeg";
+import portfolioPosters from "@/assets/poster-mallorca.webp";
+import portfolioMuraisAsset from "@/assets/mural-safari.webp";
 const portfolioMurais = portfolioMuraisAsset;
-import portfolioStationery from "@/assets/stationery-batizado.jpg";
+import portfolioStationery from "@/assets/stationery-batizado.webp";
 import {
   createBusinessJsonLd,
   createPageHead,
