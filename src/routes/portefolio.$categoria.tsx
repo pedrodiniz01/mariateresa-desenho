@@ -18,6 +18,9 @@ import stationeryJoanaFrancisco from "@/assets/stationery-joana-francisco.jpg";
 import stationeryBatizadoMatias from "@/assets/stationery-batizado-matias.jpg";
 import stationeryQuintaCamelias from "@/assets/stationery-quinta-camelias.jpg";
 import stationeryAntonioPedro from "@/assets/stationery-antonio-pedro.jpg";
+import stationeryVeraMartim from "@/assets/stationery-vera-martim.png";
+import stationeryAnitaEduardo from "@/assets/stationery-anita-eduardo.png";
+import stationeryBatizadoAntonioPedro from "@/assets/stationery-batizado-antonio-pedro.png";
 import quadro03 from "@/assets/quadro-03.jpg";
 import quadro04 from "@/assets/quadro-04.jpg";
 import quadro05 from "@/assets/quadro-05.jpg";
@@ -108,6 +111,9 @@ const categorias: Record<string, Categoria> = {
       { src: stationeryBatizadoMatias, alt: "Convites de batizado do Matias em tons dourados" },
       { src: stationeryQuintaCamelias, alt: "Convite Quinta das Camélias ilustrado em aguarela" },
       { src: stationeryAntonioPedro, alt: "Convites do António Pedro com ursinhos em aguarela" },
+      { src: stationeryVeraMartim, alt: "Suite de convites de casamento Vera e Martim com ilustrações da igreja e Casa de Sezim" },
+      { src: stationeryAnitaEduardo, alt: "Suite de convites de casamento Anita e Eduardo em azul e vermelho" },
+      { src: stationeryBatizadoAntonioPedro, alt: "Suite de batizado do António Pedro com ilustração em aguarela" },
     ],
   },
 };
